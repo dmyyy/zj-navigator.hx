@@ -23,7 +23,17 @@ cd hx-navigator
 cargo build --release
 ```
 
-Then add these bindings to the `shared_except "locked"` block in `~/.config/zellij/config.kdl`. Replace `/path/to/zj-navigator.hx` with the cloned repository path.
+Modify `~/.config/zellij/config.kdl`. Change `/path/to/` as appropriate.
+
+Add plugin to config.
+
+```kdl
+load_plugins {
+    "file:/path/to/zj-navigator.hx/hx-navigator/target/wasm32-wasip1/release/hx-navigator.wasm"
+}
+```
+
+Add bindings to the `shared_except "locked"` block.
 
 ```kdl
 shared_except "locked" {
@@ -50,12 +60,39 @@ shared_except "locked" {
 }
 ```
 
-Add plugin to config
+Approve the plugin permissions when Zellij asks. It forwards the keys to Helix when the focused pane is running `hx`; otherwise it moves Zellij focus. The hx plugin moves the view and falls back to zellij action for moving focus if focus doesn't change.
 
-```kdl
-load_plugins {
-    "file:/path/to/zj-navigator.hx/hx-navigator/target/wasm32-wasip1/release/hx-navigator.wasm"
-}
+## Working with External Programs
+
+It's common to launch yazi/lazygit via piping in via STDIN:
+
+```
+e = [
+":sh rm -f /tmp/unique-file",
+":insert-output env -u persistent -u ZELLIJ yazi %{buffer_name} --chooser-file=/tmp/unique-file",
+':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty',
+":open %sh{cat /tmp/unique-file}",
+":redraw",
+]
 ```
 
-Approve the plugin permissions when Zellij asks. It forwards the keys to Helix when the focused pane is running `hx`; otherwise it moves Zellij focus.
+```
+g = [
+":write-all",
+":new",
+":insert-output lazygit -ucf \"$HOME/.config/lazygit/config.yml\"",
+":buffer-close!",
+":redraw",
+":reload-all",
+]
+```
+
+For zellij movement while in this external_tui add the following hooks at beginning/end.
+
+```
+key = [
+":sh zellij pipe --name external_tui_enter -- %sh{echo $ZELLIJ_PANE_ID}",
+...
+":sh zellij pipe --name external_tui_exit -- %sh{echo $ZELLIJ_PANE_ID}",
+]
+```
