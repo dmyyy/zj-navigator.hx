@@ -2,7 +2,7 @@
 
 Navigate seamlessly between Helix splits and Zellij panes with `Alt-h`, `Alt-j`, `Alt-k`, and `Alt-l`.
 
-![Screen recording](docs/demo.mov)
+![Screen recording](docs/demo.gif)
 
 ## Installation
 
