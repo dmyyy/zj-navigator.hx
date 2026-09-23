@@ -1,8 +1,7 @@
 [package]
-name = "zj-mode-frame-color"
+name = "hx-navigator"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-regex = "1.12.4"
 zellij-tile = "0.44.0"
