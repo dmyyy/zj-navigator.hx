@@ -60,7 +60,7 @@ shared_except "locked" {
 }
 ```
 
-Approve the plugin permissions when Zellij asks. It forwards the keys to Helix when the focused pane is running `hx`; otherwise it moves Zellij focus. The hx plugin moves the view and falls back to zellij action for moving focus if focus doesn't change.
+Approve the plugin permissions when Zellij asks. It forwards the keys to Helix when the focused pane is running `hx`; otherwise it moves Zellij focus. The hx plugin moves the view and falls back to zellij action for moving focus if view doesn't change.
 
 ## Working with External Programs
 
